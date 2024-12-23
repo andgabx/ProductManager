@@ -5,13 +5,14 @@ import {
   ShoppingBasketIcon,
   Snail,
 } from "lucide-react";
+import Image from "next/image";
 
 const Sidebar = () => {
   return (
-    <div className="bg-primary-light w-64">
-      <div className="flex items-center gap-2 px-8 py-6">
-        <Snail className="text-white" size={24} />
-        <h1 className="text-2xl font-bold text-white">LEIGOPEARLS</h1>
+    <div className="bg-primary-light w-96">
+      <div className="items-center p-6 flex gap-2">
+        <Image src="/logo.png" alt="Logo" width={30} height={30} />
+        <h1 className="text-2xl font-bold text-white">STOCKMANAGER</h1>
       </div>
 
       <div className="flex flex-col gap-2 p-4">
