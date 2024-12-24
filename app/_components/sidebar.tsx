@@ -5,12 +5,14 @@ import {
   ShoppingBasketIcon,
 } from "lucide-react";
 import Image from "next/image";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+
 
 const Sidebar = () => {
   return (
     <div className="bg-primary-light w-96">
       <div className="items-center p-6 flex gap-2">
-        <Image src="/logo.png" alt="Logo" width={30} height={30} />
+        <MdOutlineProductionQuantityLimits size={30} color="#fff" />
         <h1 className="text-2xl font-bold text-white">STOCKMANAGER</h1>
       </div>
 

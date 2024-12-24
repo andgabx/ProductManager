@@ -21,7 +21,7 @@ const Products = async () => {
           <span className="text-sm text-white">Novo Produto</span>
         </Button>
       </div>
-      <DataTable columns={productTableColumns} data={products} />
+      <DataTable columns={productTableColumns} data={JSON.parse(JSON.stringify(products))} />
       {/* DIREITA */}
     </div>
   );
