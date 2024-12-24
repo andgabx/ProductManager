@@ -3,7 +3,6 @@ import {
   LayoutGridIcon,
   PackageIcon,
   ShoppingBasketIcon,
-  Snail,
 } from "lucide-react";
 import Image from "next/image";
 

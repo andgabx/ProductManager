@@ -1,11 +1,11 @@
 import { Button } from "../_components/ui/button";
 import { PlusIcon } from "lucide-react";
-import { db } from "../_lib/prisma";
 import { DataTable } from "../_components/ui/datatable";
 import { productTableColumns } from "./_components/table-columns";
+import { getProducts } from "./_actions/get-products";
 
 const Products = async () => {
-  const products = JSON.parse(JSON.stringify(await db.product.findMany()));
+  const products = await getProducts();
   return (
     <div className="w-full space-y-8 p-8">
       {/* ESQUERDA */}
