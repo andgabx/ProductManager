@@ -1,6 +1,6 @@
 "use client";
 
-import { PlusIcon } from "lucide-react";
+import { Loader2Icon, PlusIcon } from "lucide-react";
 import {
   Dialog,
   DialogClose,
@@ -25,16 +25,22 @@ import {
 } from "@/app/_components/ui/form";
 import { Input } from "@/app/_components/ui/input";
 import { NumericFormat } from "react-number-format";
+import { createProduct } from "../_actions/create-product";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Nome é obrigatório" }).trim().max(30), // ver a documentacao do zod pela mor
   price: z.number().min(0.01, { message: "Preço é obrigatório" }),
-  stock: z.coerce.number().positive().min(0, { message: "Estoque é obrigatório" }),
+  stock: z.coerce
+    .number()
+    .positive()
+    .min(0, { message: "Estoque é obrigatório" }),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
 
 const AddProductButton = () => {
+  const [DialogOpen, setDialogOpen] = useState(false);
   const form = useForm<FormSchema>({
     shouldUnregister: true,
     resolver: zodResolver(formSchema),
@@ -45,12 +51,17 @@ const AddProductButton = () => {
     },
   });
 
-  const onSubmit = (data: FormSchema) => {
-    console.log(data);
+  const onSubmit = async (data: FormSchema) => {
+    try {
+      await createProduct(data);
+      setDialogOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <Dialog>
+    <Dialog open={DialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button className="gap-2">
           <PlusIcon color="#fff" size={16} />
@@ -103,7 +114,11 @@ const AddProductButton = () => {
                         customInput={Input}
                         className="border-primary-dark"
                         placeholder="Digite o preço do produto"
+                        onValueChange={(value) => {
+                          field.onChange(value.floatValue);
+                        }}
                         {...field}
+                        onChange={() => {}}
                       />
                     </FormControl>
                     <FormMessage />
@@ -135,7 +150,14 @@ const AddProductButton = () => {
                     Cancelar
                   </Button>
                 </DialogClose>
-                <Button type="submit" className="bg-primary text-white">
+                <Button
+                  disabled={form.formState.isSubmitting}
+                  type="submit"
+                  className="bg-primary text-white"
+                >
+                  {form.formState.isSubmitting && (
+                    <Loader2Icon className="animate-spin" />
+                  )}
                   Criar Produto
                 </Button>
               </DialogFooter>
