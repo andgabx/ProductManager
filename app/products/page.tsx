@@ -2,6 +2,7 @@ import { DataTable } from "../_components/ui/datatable";
 import { productTableColumns } from "./_components/table-columns";
 import { getProducts } from "./_actions/get-products";
 import AddProductButton from "./_components/add-product-button";
+import { ScrollArea } from "../_components/ui/scroll-area";
 
 const Products = async () => {
   const products = await getProducts();
@@ -17,7 +18,12 @@ const Products = async () => {
         </div>
         <AddProductButton />
       </div>
-      <DataTable columns={productTableColumns} data={JSON.parse(JSON.stringify(products))} />
+      <ScrollArea className="h-screen">
+        <DataTable
+          columns={productTableColumns}
+          data={JSON.parse(JSON.stringify(products))}
+        />
+      </ScrollArea>
       {/* DIREITA */}
     </div>
   );

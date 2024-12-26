@@ -4,5 +4,5 @@
 
 html,
 body {
-  @apply h-full bg-background;
+  @apply h-screen bg-background;
 }

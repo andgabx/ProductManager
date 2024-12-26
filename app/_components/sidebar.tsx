@@ -18,7 +18,7 @@ const Sidebar = () => {
     <div
       className={cn(
         "relative bg-primary-light transition-all duration-300",
-        isCollapsed ? "w-20" : "w-96",
+        isCollapsed ? "w-20" : "w-76",
       )}
     >
       <div
