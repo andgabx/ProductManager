@@ -23,12 +23,13 @@ import { Button } from "@/app/_components/ui/button";
 import { Loader2Icon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { createProduct } from "../_actions/create-product";
+import { upsertProduct } from "../_actions/upsert-product";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 interface UpsertDialogProps {
-  onSucess?: () => void;
+  onSuccess?: () => void;
+  defaultValues?: FormSchema & { id?: string };
 }
 
 const formSchema = z.object({
@@ -42,11 +43,13 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-const UpsertDialog = ({ onSucess }: UpsertDialogProps) => {
+const UpsertDialog = ({ onSuccess, defaultValues }: UpsertDialogProps) => {
+  const isEditing = !!defaultValues?.id;
+
   const form = useForm<FormSchema>({
     shouldUnregister: true,
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: defaultValues || {
       name: "",
       price: 0,
       stock: 1,
@@ -55,12 +58,21 @@ const UpsertDialog = ({ onSucess }: UpsertDialogProps) => {
 
   const onSubmit = async (data: FormSchema) => {
     try {
-      await createProduct(data);
-      onSucess?.();
-      toast.success("Produto criado com sucesso!");
+      await upsertProduct({
+        ...data,
+        id: defaultValues?.id,
+      });
+      onSuccess?.();
+      toast.success(
+        isEditing
+          ? "Produto atualizado com sucesso!"
+          : "Produto criado com sucesso!",
+      );
     } catch (error) {
-      toast.error("Erro ao criar produto");
-      console.log(error);
+      toast.error(
+        isEditing ? "Erro ao atualizar produto" : "Erro ao criar produto",
+      );
+      console.error(error);
     }
   };
   return (
@@ -68,9 +80,13 @@ const UpsertDialog = ({ onSucess }: UpsertDialogProps) => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <DialogHeader className="space-y-4">
-            <DialogTitle>Criar Produto</DialogTitle>
+            <DialogTitle>
+              {isEditing ? "Editar Produto" : "Criar Produto"}
+            </DialogTitle>
             <DialogDescription className="py-2">
-              Insira os dados do produto abaixo
+              {isEditing
+                ? "Atualize os dados do produto abaixo"
+                : "Insira os dados do produto abaixo para criar"}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
@@ -153,7 +169,7 @@ const UpsertDialog = ({ onSucess }: UpsertDialogProps) => {
                 {form.formState.isSubmitting && (
                   <Loader2Icon className="animate-spin" />
                 )}
-                Criar Produto
+                {isEditing ? "Atualizar" : "Criar"}
               </Button>
             </DialogFooter>
           </div>

@@ -31,8 +31,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/app/_components/ui/alert-dialog";
-import { Dialog } from "@/app/_components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/app/_components/ui/dialog";
 import DeleteDialog from "./delete-dialog";
+import UpsertDialog from "./upsert-dialog";
+import { toast } from "sonner";
+import { useState } from "react";
 
 export const productTableColumns: ColumnDef<Product>[] = [
   {
@@ -71,11 +74,12 @@ export const productTableColumns: ColumnDef<Product>[] = [
     header: "Ações",
     cell: ({ row }) => {
       const product = row.original;
+      const [open, setOpen] = useState(false);
+
       return (
-        
         <>
-          <Dialog>
-            <AlertDialog>
+          <AlertDialog>
+            <Dialog open={open} onOpenChange={setOpen}>
               <DropdownMenu>
                 <DropdownMenuTrigger className="text-xl" asChild>
                   <Button variant="ghost" size="icon">
@@ -91,10 +95,12 @@ export const productTableColumns: ColumnDef<Product>[] = [
                     <CopyIcon size={16} />
                     Copiar Id
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="gap-2">
-                    <EditIcon size={16} />
-                    Editar
-                  </DropdownMenuItem>
+                  <DialogTrigger asChild>
+                    <DropdownMenuItem className="gap-2">
+                      <EditIcon size={16} />
+                      Editar
+                    </DropdownMenuItem>
+                  </DialogTrigger>
                   <DropdownMenuItem className="gap-2">
                     <AlertDialogTrigger className="flex gap-2">
                       <TrashIcon size={16} />
@@ -103,10 +109,18 @@ export const productTableColumns: ColumnDef<Product>[] = [
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-
+              <UpsertDialog
+                defaultValues={{
+                  id: product.id,
+                  name: product.name,
+                  price: Number(product.price),
+                  stock: product.stock,
+                }}
+                onSuccess={() => setOpen(false)}
+              />
               <DeleteDialog id={product.id} />
-            </AlertDialog>
-          </Dialog>
+            </Dialog>
+          </AlertDialog>
         </>
       );
     },
