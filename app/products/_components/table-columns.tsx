@@ -12,7 +12,27 @@ import {
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
 import { Button } from "@/app/_components/ui/button";
-import { CopyIcon, EditIcon, MoreHorizontalIcon, PencilIcon, TrashIcon } from "lucide-react";
+import {
+  CopyIcon,
+  Delete,
+  EditIcon,
+  MoreHorizontalIcon,
+  PencilIcon,
+  TrashIcon,
+} from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/app/_components/ui/alert-dialog";
+import { Dialog } from "@/app/_components/ui/dialog";
+import DeleteDialog from "./delete-dialog";
 
 export const productTableColumns: ColumnDef<Product>[] = [
   {
@@ -52,29 +72,41 @@ export const productTableColumns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       const product = row.original;
       return (
+        
         <>
-          <DropdownMenu>
-            <DropdownMenuTrigger className="text-xl" asChild>
-              <Button variant="ghost" size="icon">
-                <MoreHorizontalIcon size={16} />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-background">
-              <DropdownMenuLabel>Ações</DropdownMenuLabel>
-              <DropdownMenuItem className="gap-2" onClick={() => navigator.clipboard.writeText(product.id)}>
-                <CopyIcon size={16} />
-                Copiar Id
-              </DropdownMenuItem>
-              <DropdownMenuItem className="gap-2">
-                <EditIcon size={16} />
-                Editar
-              </DropdownMenuItem>
-              <DropdownMenuItem className="gap-2">
-                <TrashIcon size={16} />
-                Excluir
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Dialog>
+            <AlertDialog>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="text-xl" asChild>
+                  <Button variant="ghost" size="icon">
+                    <MoreHorizontalIcon size={16} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-background">
+                  <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                  <DropdownMenuItem
+                    className="gap-2"
+                    onClick={() => navigator.clipboard.writeText(product.id)}
+                  >
+                    <CopyIcon size={16} />
+                    Copiar Id
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="gap-2">
+                    <EditIcon size={16} />
+                    Editar
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="gap-2">
+                    <AlertDialogTrigger className="flex gap-2">
+                      <TrashIcon size={16} />
+                      Excluir
+                    </AlertDialogTrigger>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DeleteDialog id={product.id} />
+            </AlertDialog>
+          </Dialog>
         </>
       );
     },

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Sidebar from "./_components/sidebar";
-import { Inter } from 'next/font/google'
+import { Inter } from "next/font/google";
+import { Toaster } from "./_components/ui/sonner";
 
-const inter = Inter({ subsets: ['latin'], display: 'swap' })
+const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,14 +17,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.className} antialiased`}
-      >
-        <div className="flex gap-8 h-max">
+    <html lang="pt-BR">
+      <body className={`${inter.className} antialiased`}>
+        <div className="flex h-screen w-screen gap-8">
           <Sidebar />
           {children}
         </div>
+        <Toaster
+          toastOptions={{
+            className: "bg-primary text-white",
+          }}
+        />
       </body>
     </html>
   );

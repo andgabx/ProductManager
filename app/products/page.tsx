@@ -18,12 +18,12 @@ const Products = async () => {
         </div>
         <AddProductButton />
       </div>
-      <ScrollArea className="h-screen">
+  
         <DataTable
           columns={productTableColumns}
           data={JSON.parse(JSON.stringify(products))}
         />
-      </ScrollArea>
+
       {/* DIREITA */}
     </div>
   );

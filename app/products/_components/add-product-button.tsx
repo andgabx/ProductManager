@@ -27,6 +27,7 @@ import { Input } from "@/app/_components/ui/input";
 import { NumericFormat } from "react-number-format";
 import { createProduct } from "../_actions/create-product";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Nome é obrigatório" }).trim().max(30), // ver a documentacao do zod pela mor
@@ -55,7 +56,9 @@ const AddProductButton = () => {
     try {
       await createProduct(data);
       setDialogOpen(false);
+      toast.success("Produto criado com sucesso!");
     } catch (error) {
+      toast.error("Erro ao criar produto");
       console.log(error);
     }
   };
