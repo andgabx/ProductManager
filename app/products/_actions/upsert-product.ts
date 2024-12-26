@@ -11,7 +11,6 @@ export async function upsertProduct(data: {
 }) {
   try {
     if (data.id) {
-      // Update existing product
       await db.product.update({
         where: { id: data.id },
         data: {
@@ -21,7 +20,6 @@ export async function upsertProduct(data: {
         },
       });
     } else {
-      // Create new product
       await db.product.create({
         data: {
           name: data.name,

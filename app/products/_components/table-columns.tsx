@@ -36,6 +36,7 @@ import DeleteDialog from "./delete-dialog";
 import UpsertDialog from "./upsert-dialog";
 import { toast } from "sonner";
 import { useState } from "react";
+import ProductDropdownActions from "./product-dropdown-actions";
 
 export const productTableColumns: ColumnDef<Product>[] = [
   {
@@ -73,56 +74,7 @@ export const productTableColumns: ColumnDef<Product>[] = [
     accessorKey: "actions",
     header: "Ações",
     cell: ({ row }) => {
-      const product = row.original;
-      const [open, setOpen] = useState(false);
-
-      return (
-        <>
-          <AlertDialog>
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="text-xl" asChild>
-                  <Button variant="ghost" size="icon">
-                    <MoreHorizontalIcon size={16} />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-background">
-                  <DropdownMenuLabel>Ações</DropdownMenuLabel>
-                  <DropdownMenuItem
-                    className="gap-2"
-                    onClick={() => navigator.clipboard.writeText(product.id)}
-                  >
-                    <CopyIcon size={16} />
-                    Copiar Id
-                  </DropdownMenuItem>
-                  <DialogTrigger asChild>
-                    <DropdownMenuItem className="gap-2">
-                      <EditIcon size={16} />
-                      Editar
-                    </DropdownMenuItem>
-                  </DialogTrigger>
-                  <DropdownMenuItem className="gap-2">
-                    <AlertDialogTrigger className="flex gap-2">
-                      <TrashIcon size={16} />
-                      Excluir
-                    </AlertDialogTrigger>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <UpsertDialog
-                defaultValues={{
-                  id: product.id,
-                  name: product.name,
-                  price: Number(product.price),
-                  stock: product.stock,
-                }}
-                onSuccess={() => setOpen(false)}
-              />
-              <DeleteDialog id={product.id} />
-            </Dialog>
-          </AlertDialog>
-        </>
-      );
+      return <ProductDropdownActions product={row.original} />;
     },
   },
 ];
