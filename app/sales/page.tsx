@@ -31,7 +31,7 @@ const Sales = async () => {
             <span className="text-sm font-semibold text-primary-light">
               Gestão de Vendas
             </span>
-            <h2 className="text-xl font-semibold">Produtos</h2>
+            <h2 className="text-xl font-semibold">Vendas</h2>
           </div>
           <Sheet>
             <SheetTrigger asChild>

@@ -9,6 +9,8 @@ import {
   SettingsIcon,
   InfoIcon,
   Link,
+  GithubIcon,
+  LinkedinIcon,
 } from "lucide-react";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { cn } from "@/app/_lib/utils";
@@ -21,6 +23,7 @@ import {
   DialogDescription,
 } from "@/app/_components/ui/dialog";
 import { useState } from "react";
+import { IconContext } from "react-icons/lib";
 
 const Sidebar = () => {
   const { isCollapsed, toggleCollapse } = useSidebarStore();
@@ -90,12 +93,13 @@ const Sidebar = () => {
               Por que criei o Stock Manager?
             </DialogTitle>
             <DialogDescription>
-              Decidi criar umm sistema de gerenciamento de estoque que permite
+              Decidi criar um sistema de gerenciamento de estoque que permite
               você gerenciar seus produtos de forma eficiente. Aproveitei e
               treinei meus conhecimentos em Next.js e TypeScript, como a
               manipulação de dados, validação de formulários, e a criação de
               interfaces de usuário.
             </DialogDescription>
+
 
           </DialogHeader>
         </DialogContent>
