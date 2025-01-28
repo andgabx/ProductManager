@@ -37,8 +37,7 @@ const formSchema = z.object({
   price: z.number().min(0.01, { message: "Preço é obrigatório" }),
   stock: z.coerce
     .number()
-    .positive()
-    .min(0, { message: "Estoque é obrigatório" }),
+    .min(0),
 });
 
 type FormSchema = z.infer<typeof formSchema>;

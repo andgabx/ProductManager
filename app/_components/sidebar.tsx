@@ -6,13 +6,24 @@ import {
   ShoppingBasketIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  SettingsIcon,
+  InfoIcon,
 } from "lucide-react";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { cn } from "@/app/_lib/utils";
 import { useSidebarStore } from "@/app/_components/_actions/use-sidebar-store";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/app/_components/ui/dialog";
+import { useState } from "react";
 
 const Sidebar = () => {
   const { isCollapsed, toggleCollapse } = useSidebarStore();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
     <div
@@ -52,6 +63,12 @@ const Sidebar = () => {
           href="/sales"
           collapsed={isCollapsed}
         />
+        <SidebarButtons
+          icon={<InfoIcon size={24} />}
+          label="Sobre"
+          collapsed={isCollapsed}
+          onClick={() => setIsDialogOpen(true)}
+        />
       </div>
 
       <button
@@ -64,6 +81,20 @@ const Sidebar = () => {
           <ChevronLeftIcon size={20} color="#fff" />
         )}
       </button>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader className="space-y-4">
+            <DialogTitle className="text-xl font-semibold text-primary-light">
+              Por que criei o Stock Manager?
+            </DialogTitle>
+            <DialogDescription>
+              Decidi criar umm sistema de gerenciamento de estoque que
+              permite você gerenciar seus produtos de forma eficiente. Aproveitei e treinei meus conhecimentos em Next.js e TypeScript.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
