@@ -1,5 +1,6 @@
 "use client";
 
+import { Combobox, ComboboxOption } from "@/app/_components/ui/combobox";
 import {
   Form,
   FormControl,
@@ -25,7 +26,11 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-const UpsertSheetContent = () => {
+interface UpsertSheetContentProps {
+  productOptions: ComboboxOption[];
+}
+
+const UpsertSheetContent = ({ productOptions }: UpsertSheetContentProps) => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,7 +54,7 @@ const UpsertSheetContent = () => {
         </SheetDescription>
       </SheetHeader>
       <Form {...form}>
-        <form className="py-6 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+        <form className="space-y-6 py-6" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="productId"
@@ -57,7 +62,13 @@ const UpsertSheetContent = () => {
               <FormItem className="w-full">
                 <FormLabel>Produto</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <Combobox
+                    options={productOptions}
+                    placeholder="Selecione um produto"
+                    searchPlaceholder="Buscar produto..."
+                    emptyMessage="Nenhum produto encontrado."
+                    {...field}
+                  />
                 </FormControl>
               </FormItem>
             )}

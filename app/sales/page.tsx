@@ -1,16 +1,19 @@
 import { Button } from "../_components/ui/button";
 import { PlusIcon } from "lucide-react";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTrigger,
-} from "../_components/ui/sheet";
+import { Sheet, SheetTrigger } from "../_components/ui/sheet";
 import UpsertSheetContent from "./_components/upsert-sheet-content";
 import { Suspense } from "react";
 import LoadingSpinner from "../_components/ui/loading-spinner";
+import { getProducts } from "../products/_actions/get-products";
+import { ComboboxOption } from "../_components/ui/combobox";
 
 const Sales = async () => {
+  const products = await getProducts();
+  const productOptions: ComboboxOption[] = products.map((product) => ({
+    label: product.name,
+    value: product.id,
+  }));
+
   return (
     <Suspense
       fallback={
@@ -19,7 +22,6 @@ const Sales = async () => {
         </div>
       }
     >
-
       {/* Conteudo da pagina */}
 
       <div className="w-full space-y-8 p-8">
@@ -38,13 +40,12 @@ const Sales = async () => {
                 Nova Venda
               </Button>
             </SheetTrigger>
-            <UpsertSheetContent />
+            <UpsertSheetContent productOptions={productOptions} />
           </Sheet>
         </div>
       </div>
 
       {/* Fim do conteudo da pagina */}
-      
     </Suspense>
   );
 };
