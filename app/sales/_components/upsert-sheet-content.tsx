@@ -28,12 +28,12 @@ import {
 } from "@/app/_components/ui/table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Product } from "@prisma/client";
-import { MoreHorizontalIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import TableDropdownMenu from "./table-dropdown-menu";
 import SalesTableDropdownMenu from "./table-dropdown-menu";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   productId: z.string().uuid("Selecione um produto"),
@@ -84,12 +84,25 @@ const UpsertSheetContent = ({
         (product) => product.id === selectedProduct.id,
       );
       if (existingProduct) {
+        const productIsOutOfStock =
+          existingProduct.quantity + data.quantity > selectedProduct.stock;
+        if (productIsOutOfStock) {
+          toast.error("Quantidade insuficiente em estoque");
+          return currentProducts;
+        }
         return currentProducts.map((product) =>
           product.id === selectedProduct.id
             ? { ...product, quantity: product.quantity + data.quantity }
             : product,
         );
       }
+
+      const productIsOutOfStock = data.quantity > selectedProduct.stock;
+      if (productIsOutOfStock) {
+        toast.error("Quantidade insuficiente em estoque");
+        return currentProducts;
+      }
+
       return [
         ...currentProducts,
         {
@@ -189,10 +202,7 @@ const UpsertSheetContent = ({
                 }).format(product.price * product.quantity)}
               </TableCell>
               <TableCell>
-                <SalesTableDropdownMenu
-                  product={product}
-                  onDelete={onDelete}
-                />
+                <SalesTableDropdownMenu product={product} onDelete={onDelete} />
               </TableCell>
             </TableRow>
           ))}
@@ -211,9 +221,7 @@ const UpsertSheetContent = ({
                 ),
               )}
             </TableCell>
-            <TableCell>
-
-            </TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableFooter>
       </Table>
