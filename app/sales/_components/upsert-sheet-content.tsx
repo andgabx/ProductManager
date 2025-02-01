@@ -16,6 +16,16 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/app/_components/ui/sheet";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/app/_components/ui/table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Product } from "@prisma/client";
 import { PlusIcon } from "lucide-react";
@@ -67,20 +77,32 @@ const UpsertSheetContent = ({
     );
     if (!selectedProduct) return;
 
-    setSelectedProducts((prev) => [
-      ...prev,
-      {
-        id: selectedProduct.id,
-        name: selectedProduct.name,
-        price: Number(selectedProduct.price),
-        quantity: data.quantity,
-      },
-    ]);
+    setSelectedProducts((currentProducts) => {
+      const existingProduct = currentProducts.find(
+        (product) => product.id === selectedProduct.id,
+      );
+      if (existingProduct) {
+        return currentProducts.map((product) =>
+          product.id === selectedProduct.id
+            ? { ...product, quantity: product.quantity + data.quantity }
+            : product,
+        );
+      }
+      return [
+        ...currentProducts,
+        {
+          id: selectedProduct.id,
+          name: selectedProduct.name,
+          price: Number(selectedProduct.price),
+          quantity: data.quantity,
+        },
+      ];
+    });
     form.reset();
   };
 
   return (
-    <SheetContent>
+    <SheetContent className="!max-w-xl">
       <SheetHeader>
         <SheetTitle className="text-xl font-semibold text-primary-light">
           Nova Venda
@@ -130,11 +152,53 @@ const UpsertSheetContent = ({
         </form>
       </Form>
 
-      {selectedProducts.map((product) => (
-        <p className="text-slate-800" key={product.id}>
-          {product.name}
-        </p>
-      ))}
+      <Table>
+        <TableCaption>Produtos selecionados</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Produto</TableHead>
+            <TableHead>Preço Unitário</TableHead>
+            <TableHead>Quantidade</TableHead>
+            <TableHead>Total</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {selectedProducts.map((product) => (
+            <TableRow key={product.id}>
+              <TableCell>{product.name}</TableCell>
+              <TableCell>
+                {Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                }).format(product.price)}
+              </TableCell>
+              <TableCell>{product.quantity}</TableCell>
+              <TableCell>
+                {Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                }).format(product.price * product.quantity)}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={3}>Total</TableCell>
+            <TableCell>
+              {Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              }).format(
+                selectedProducts.reduce(
+                  (acc, product) => acc + product.price * product.quantity,
+                  0,
+                ),
+              )}
+            </TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
     </SheetContent>
   );
 };
