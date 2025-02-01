@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/app/_components/ui/button";
 import { Combobox, ComboboxOption } from "@/app/_components/ui/combobox";
 import {
   Form,
@@ -16,21 +17,42 @@ import {
   SheetTitle,
 } from "@/app/_components/ui/sheet";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Product } from "@prisma/client";
+import { PlusIcon } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
-  productId: z.string().uuid(),
-  quantity: z.number().positive().int(),
+  productId: z.string().uuid("Selecione um produto"),
+  quantity: z.coerce
+    .number()
+    .positive()
+    .int("A quantidade deve ser um número inteiro positivo"),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
 
 interface UpsertSheetContentProps {
   productOptions: ComboboxOption[];
+  products: Product[];
 }
 
-const UpsertSheetContent = ({ productOptions }: UpsertSheetContentProps) => {
+interface SelectedProduct {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+const UpsertSheetContent = ({
+  productOptions,
+  products,
+}: UpsertSheetContentProps) => {
+  const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(
+    [],
+  );
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,8 +61,22 @@ const UpsertSheetContent = ({ productOptions }: UpsertSheetContentProps) => {
     },
   });
 
-  const onSubmit = async (data: FormSchema) => {
-    console.log(data);
+  const onSubmit = (data: FormSchema) => {
+    const selectedProduct = products?.find(
+      (product) => product.id === data.productId,
+    );
+    if (!selectedProduct) return;
+
+    setSelectedProducts((prev) => [
+      ...prev,
+      {
+        id: selectedProduct.id,
+        name: selectedProduct.name,
+        price: Number(selectedProduct.price),
+        quantity: data.quantity,
+      },
+    ]);
+    form.reset();
   };
 
   return (
@@ -86,8 +122,19 @@ const UpsertSheetContent = ({ productOptions }: UpsertSheetContentProps) => {
               </FormItem>
             )}
           />
+
+          <Button type="submit" className="w-full gap-2 text-white">
+            <PlusIcon size={20} />
+            Adicionar
+          </Button>
         </form>
       </Form>
+
+      {selectedProducts.map((product) => (
+        <p className="text-slate-800" key={product.id}>
+          {product.name}
+        </p>
+      ))}
     </SheetContent>
   );
 };

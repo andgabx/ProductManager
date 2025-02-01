@@ -6,13 +6,18 @@ import { Suspense } from "react";
 import LoadingSpinner from "../_components/ui/loading-spinner";
 import { getProducts } from "../products/_actions/get-products";
 import { ComboboxOption } from "../_components/ui/combobox";
+import { Product } from "@prisma/client";
 
 const Sales = async () => {
   const products = await getProducts();
-  const productOptions: ComboboxOption[] = products.map((product) => ({
-    label: product.name,
-    value: product.id,
-  }));
+  const serializedProducts = JSON.parse(JSON.stringify(products));
+
+  const productOptions: ComboboxOption[] = serializedProducts.map(
+    (product: Product) => ({
+      label: product.name,
+      value: product.id,
+    }),
+  );
 
   return (
     <Suspense
@@ -40,7 +45,10 @@ const Sales = async () => {
                 Nova Venda
               </Button>
             </SheetTrigger>
-            <UpsertSheetContent productOptions={productOptions} />
+            <UpsertSheetContent
+              productOptions={productOptions}
+              products={serializedProducts}
+            />
           </Sheet>
         </div>
       </div>

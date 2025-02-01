@@ -20,13 +20,14 @@ export interface ComboboxOption {
   label: string;
 }
 
-interface ComboboxProps {
+export interface ComboboxProps {
   options: ComboboxOption[];
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
   searchPlaceholder?: string;
   emptyMessage?: string;
+  filterFunction?: (option: ComboboxOption, searchValue: string) => boolean;
 }
 
 export const Combobox = ({
@@ -36,8 +37,15 @@ export const Combobox = ({
   searchPlaceholder = "Search...",
   emptyMessage = "No results found.",
   onChange,
+  filterFunction = (option, searchValue) =>
+    option.label.toLowerCase().includes(searchValue.toLowerCase()),
 }: ComboboxProps) => {
   const [open, setOpen] = React.useState(false);
+  const [search, setSearch] = React.useState("");
+
+  const filteredOptions = options.filter((option) =>
+    filterFunction(option, search)
+  );
 
   return (
     <Popover open={open} onOpenChange={setOpen} modal>
@@ -56,11 +64,14 @@ export const Combobox = ({
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder={searchPlaceholder} />
+          <CommandInput 
+            placeholder={searchPlaceholder} 
+            onValueChange={setSearch}
+          />
           <CommandList>
             <CommandEmpty>{emptyMessage}</CommandEmpty>
             <CommandGroup>
-              {options.map((option) => (
+              {filteredOptions.map((option) => (
                 <CommandItem
                   className="text-primary-dark"
                   key={option.value}
