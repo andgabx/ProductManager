@@ -28,10 +28,12 @@ import {
 } from "@/app/_components/ui/table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Product } from "@prisma/client";
-import { PlusIcon } from "lucide-react";
+import { MoreHorizontalIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import TableDropdownMenu from "./table-dropdown-menu";
+import SalesTableDropdownMenu from "./table-dropdown-menu";
 
 const formSchema = z.object({
   productId: z.string().uuid("Selecione um produto"),
@@ -101,6 +103,12 @@ const UpsertSheetContent = ({
     form.reset();
   };
 
+  const onDelete = (productId: string) => {
+    setSelectedProducts((currentProducts) =>
+      currentProducts.filter((product) => product.id !== productId),
+    );
+  };
+
   return (
     <SheetContent className="!max-w-xl">
       <SheetHeader>
@@ -160,6 +168,7 @@ const UpsertSheetContent = ({
             <TableHead>Preço Unitário</TableHead>
             <TableHead>Quantidade</TableHead>
             <TableHead>Total</TableHead>
+            <TableHead>Ações</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -179,6 +188,12 @@ const UpsertSheetContent = ({
                   currency: "BRL",
                 }).format(product.price * product.quantity)}
               </TableCell>
+              <TableCell>
+                <SalesTableDropdownMenu
+                  product={product}
+                  onDelete={onDelete}
+                />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -195,6 +210,9 @@ const UpsertSheetContent = ({
                   0,
                 ),
               )}
+            </TableCell>
+            <TableCell>
+
             </TableCell>
           </TableRow>
         </TableFooter>
