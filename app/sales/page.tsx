@@ -1,18 +1,17 @@
-import { Button } from "../_components/ui/button";
-import { PlusIcon } from "lucide-react";
-import { Sheet, SheetTrigger } from "../_components/ui/sheet";
-import UpsertSheetContent from "./_components/upsert-sheet-content";
-import { Suspense } from "react";
 import LoadingSpinner from "../_components/ui/loading-spinner";
 import { getProducts } from "../products/_actions/get-products";
 import { ComboboxOption } from "../_components/ui/combobox";
 import { Product } from "@prisma/client";
+import CreateSaleButton from "./_components/create-sale-button";
+import { Suspense } from "react";
 
 const Sales = async () => {
   const products = await getProducts();
-  const serializedProducts = JSON.parse(JSON.stringify(products));
 
-  const productOptions: ComboboxOption[] = serializedProducts.map(
+  // Faça a sanitização AQUI, antes de passar para o componente cliente
+  const sanitizedProducts = JSON.parse(JSON.stringify(products));
+
+  const productOptions: ComboboxOption[] = sanitizedProducts.map(
     (product: Product) => ({
       label: product.name,
       value: product.id,
@@ -38,18 +37,10 @@ const Sales = async () => {
             </span>
             <h2 className="text-xl font-semibold">Vendas</h2>
           </div>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button className="flex items-center gap-2 text-white">
-                <PlusIcon className="size-4" />
-                Nova Venda
-              </Button>
-            </SheetTrigger>
-            <UpsertSheetContent
-              productOptions={productOptions}
-              products={serializedProducts}
-            />
-          </Sheet>
+          <CreateSaleButton
+            productOptions={productOptions}
+            products={sanitizedProducts}
+          />
         </div>
       </div>
 

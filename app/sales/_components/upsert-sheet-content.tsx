@@ -13,6 +13,7 @@ import { Input } from "@/app/_components/ui/input";
 import {
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@/app/_components/ui/sheet";
@@ -28,12 +29,13 @@ import {
 } from "@/app/_components/ui/table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Product } from "@prisma/client";
-import { PlusIcon } from "lucide-react";
+import { CheckIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import SalesTableDropdownMenu from "./table-dropdown-menu";
 import { toast } from "sonner";
+import { CreateSale } from "../_actions/create-sale";
 
 const formSchema = z.object({
   productId: z.string().uuid("Selecione um produto"),
@@ -48,6 +50,7 @@ type FormSchema = z.infer<typeof formSchema>;
 interface UpsertSheetContentProps {
   productOptions: ComboboxOption[];
   products: Product[];
+  onSubmitSuccess: () => void;
 }
 
 interface SelectedProduct {
@@ -60,6 +63,7 @@ interface SelectedProduct {
 const UpsertSheetContent = ({
   productOptions,
   products,
+  onSubmitSuccess,
 }: UpsertSheetContentProps) => {
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(
     [],
@@ -98,6 +102,7 @@ const UpsertSheetContent = ({
       }
 
       const productIsOutOfStock = data.quantity > selectedProduct.stock;
+
       if (productIsOutOfStock) {
         toast.error("Quantidade insuficiente em estoque");
         return currentProducts;
@@ -120,6 +125,21 @@ const UpsertSheetContent = ({
     setSelectedProducts((currentProducts) =>
       currentProducts.filter((product) => product.id !== productId),
     );
+  };
+
+  const onSubmitSale = async () => {
+    try {
+      await CreateSale({
+        products: selectedProducts.map((product) => ({
+          id: product.id,
+          quantity: product.quantity,
+        })),
+      });
+      toast.success("Venda finalizada com sucesso");
+      onSubmitSuccess();
+    } catch (error) {
+      toast.error("Erro ao finalizar venda");
+    }
   };
 
   return (
@@ -225,6 +245,17 @@ const UpsertSheetContent = ({
           </TableRow>
         </TableFooter>
       </Table>
+
+      <SheetFooter className="py-8">
+        <Button
+          className="w-full text-white"
+          disabled={selectedProducts.length === 0}
+          onClick={onSubmitSale}
+        >
+          <CheckIcon size={20} />
+          Finalizar Venda
+        </Button>
+      </SheetFooter>
     </SheetContent>
   );
 };

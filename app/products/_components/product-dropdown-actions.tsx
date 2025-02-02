@@ -28,12 +28,13 @@ interface ProductDropdownActionsProps {
 
 const ProductDropdownActions = ({ product }: ProductDropdownActionsProps) => {
   const [open, setOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
     <>
       <AlertDialog>
         <Dialog open={open} onOpenChange={setOpen}>
-          <DropdownMenu>
+          <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
             <DropdownMenuTrigger className="text-xl" asChild>
               <Button variant="ghost" size="icon">
                 <MoreHorizontalIcon size={16} />
@@ -48,12 +49,18 @@ const ProductDropdownActions = ({ product }: ProductDropdownActionsProps) => {
                 <CopyIcon size={16} />
                 Copiar Id
               </DropdownMenuItem>
-              <DialogTrigger asChild>
-                <DropdownMenuItem className="gap-2">
-                  <EditIcon size={16} />
-                  Editar
-                </DropdownMenuItem>
-              </DialogTrigger>
+
+              <DropdownMenuItem
+                onClick={() => {
+                  setOpen(true);
+                  setDropdownOpen(false);
+                }}
+                className="gap-2"
+              >
+                <EditIcon size={16} />
+                Editar
+              </DropdownMenuItem>
+
               <DropdownMenuItem className="gap-2">
                 <AlertDialogTrigger className="flex gap-2">
                   <TrashIcon size={16} />

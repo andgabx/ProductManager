@@ -35,9 +35,7 @@ interface UpsertDialogProps {
 const formSchema = z.object({
   name: z.string().min(1, { message: "Nome é obrigatório" }).trim().max(30), // ver a documentacao do zod pela mor
   price: z.number().min(0.01, { message: "Preço é obrigatório" }),
-  stock: z.coerce
-    .number()
-    .min(0),
+  stock: z.coerce.number().min(0),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
