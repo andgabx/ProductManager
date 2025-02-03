@@ -4,9 +4,13 @@ import { ComboboxOption } from "../_components/ui/combobox";
 import { Product } from "@prisma/client";
 import CreateSaleButton from "./_components/create-sale-button";
 import { Suspense } from "react";
+import { DataTable } from "../_components/ui/datatable";
+import { saleTableColumns } from "./_components/table-columns";
+import { getSales } from "./_actions/get-sales";
 
 const Sales = async () => {
   const products = await getProducts();
+  const sales = await getSales();
 
   // Faça a sanitização AQUI, antes de passar para o componente cliente
   const sanitizedProducts = JSON.parse(JSON.stringify(products));
@@ -42,7 +46,10 @@ const Sales = async () => {
             products={sanitizedProducts}
           />
         </div>
+        <DataTable columns={saleTableColumns} data={sales} />
+
       </div>
+
 
       {/* Fim do conteudo da pagina */}
     </Suspense>
