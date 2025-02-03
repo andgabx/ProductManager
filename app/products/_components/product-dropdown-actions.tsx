@@ -21,6 +21,7 @@ import { useState } from "react";
 import { Product } from "@prisma/client";
 import DeleteDialog from "./delete-dialog";
 import UpsertDialog from "./upsert-dialog";
+import { toast } from "sonner";
 
 interface ProductDropdownActionsProps {
   product: Product;
@@ -29,6 +30,10 @@ interface ProductDropdownActionsProps {
 const ProductDropdownActions = ({ product }: ProductDropdownActionsProps) => {
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(product.id);
+    toast.success("ID copiado para a área de transferência");
+  };
 
   return (
     <>
@@ -44,7 +49,7 @@ const ProductDropdownActions = ({ product }: ProductDropdownActionsProps) => {
               <DropdownMenuLabel>Ações</DropdownMenuLabel>
               <DropdownMenuItem
                 className="gap-2"
-                onClick={() => navigator.clipboard.writeText(product.id)}
+                onClick={copyToClipboard}
               >
                 <CopyIcon size={16} />
                 Copiar Id

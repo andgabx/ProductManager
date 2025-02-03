@@ -7,14 +7,18 @@ import ProductDropdownActions from "@/app/products/_components/product-dropdown-
 import { MoreHorizontalIcon } from "lucide-react";
 import { Button } from "@/app/_components/ui/button";
 import { GetSalesDto } from "../_actions/get-sales";
+import SalesTableDropdownMenu from "./table-dropdown-menu";
 
 export const saleTableColumns: ColumnDef<GetSalesDto>[] = [
   {
     accessorKey: "productNames",
     header: "Produtos",
-
-
+    cell: ({ row }) => {
+      const product = row.original;
+      return <span>{product.productNames.join(" ● ")}</span>;
+    },
   },
+
 
   {
     accessorKey: "totalProducts",
@@ -48,10 +52,10 @@ export const saleTableColumns: ColumnDef<GetSalesDto>[] = [
     header: "Ações",
     cell: ({ row }) => {
       return (
-        <Button variant="ghost" size="icon">
-          <MoreHorizontalIcon size={16} />
-        </Button>
+        <SalesTableDropdownMenu sale={row.original} />
       );
+
+
     },
   },
 ];
