@@ -196,7 +196,7 @@ const UpsertSheetContent = ({
         </form>
       </Form>
 
-        <Table className="overflow-y-auto max-h-[45vh]">
+        <Table className="overflow-y-auto max-h-[40vh]">
           <TableHeader>
               <TableRow>
                 <TableHead>Produto</TableHead>
@@ -206,7 +206,7 @@ const UpsertSheetContent = ({
                 <TableHead>Ações</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="max-w-full">
               {selectedProducts.map((product) => (
                 <TableRow key={product.id}>
                   <TableCell>{product.name}</TableCell>
@@ -252,7 +252,7 @@ const UpsertSheetContent = ({
         </Table>
         
 
-      <SheetFooter className="py-8">
+      <SheetFooter className="py-4">
         <Button
           className="w-full text-white"
           disabled={selectedProducts.length === 0}
