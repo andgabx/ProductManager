@@ -15,7 +15,6 @@ interface CreateSaleButtonProps {
 
 const CreateSaleButton = (props: CreateSaleButtonProps) => {
   const [open, setOpen] = useState(false);
-  
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -27,10 +26,6 @@ const CreateSaleButton = (props: CreateSaleButtonProps) => {
       </SheetTrigger>
       <UpsertSheetContent {...props} onSubmitSuccess={() => setOpen(false)} />
     </Sheet>
-
-
-
-
   );
 };
 
