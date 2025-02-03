@@ -144,7 +144,9 @@ const UpsertSheetContent = ({
   };
 
   return (
+
     <SheetContent className="!max-w-xl">
+
       <SheetHeader>
         <SheetTitle className="text-xl font-semibold text-primary-light">
           Nova Venda
@@ -194,65 +196,61 @@ const UpsertSheetContent = ({
         </form>
       </Form>
 
-      <Table>
-      <ScrollArea className="h-[50vh]">
-        <TableCaption>Produtos selecionados</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Produto</TableHead>
-            <TableHead>Preço Unitário</TableHead>
-            <TableHead>Quantidade</TableHead>
-            <TableHead>Total</TableHead>
-            <TableHead>Ações</TableHead>
-          </TableRow>
-        </TableHeader>
-        
-          <TableBody>
-            {selectedProducts.map((product) => (
-              <TableRow key={product.id}>
-                <TableCell>{product.name}</TableCell>
-                <TableCell>
-                  {Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  }).format(product.price)}
-                </TableCell>
-                <TableCell>{product.quantity}</TableCell>
-                <TableCell>
-                  {Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  }).format(product.price * product.quantity)}
-                </TableCell>
-                <TableCell>
-                  <SalesTableDropdownMenu
-                    product={product}
-                    onDelete={onDelete}
-                  />
-                </TableCell>
+        <Table className="overflow-y-auto max-h-[50vh]">
+          <TableHeader>
+              <TableRow>
+                <TableHead>Produto</TableHead>
+                <TableHead>Preço Unitário</TableHead>
+                <TableHead>Quantidade</TableHead>
+                <TableHead>Total</TableHead>
+                <TableHead>Ações</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
+            </TableHeader>
+            <TableBody>
+              {selectedProducts.map((product) => (
+                <TableRow key={product.id}>
+                  <TableCell>{product.name}</TableCell>
+                  <TableCell>
+                    {Intl.NumberFormat("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    }).format(product.price)}
+                  </TableCell>
+                  <TableCell>{product.quantity}</TableCell>
+                  <TableCell>
+                    {Intl.NumberFormat("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    }).format(product.price * product.quantity)}
+                  </TableCell>
+                  <TableCell>
+                    <SalesTableDropdownMenu
+                      product={product}
+                      onDelete={onDelete}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan={3}>Total</TableCell>
+                <TableCell>
+                  {Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(
+                    selectedProducts.reduce(
+                      (acc, product) => acc + product.price * product.quantity,
+                      0,
+                    ),
+                  )}
+                </TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+          </TableFooter>
+        </Table>
         
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell>
-              {Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-              }).format(
-                selectedProducts.reduce(
-                  (acc, product) => acc + product.price * product.quantity,
-                  0,
-                ),
-              )}
-            </TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableFooter>
-        </ScrollArea>
-      </Table>
 
       <SheetFooter className="py-8">
         <Button
