@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stock Manager
 
-## Getting Started
+## 📋 Sobre
+Stock Manager é um sistema de gerenciamento de estoque baseado na web desenvolvido para ajudar empresas a gerenciar seus produtos e vendas de forma eficiente. Este projeto foi desenvolvido como uma experiência de aprendizado para aprimorar habilidades em tecnologias modernas de desenvolvimento web.
 
-First, run the development server:
+## 🚀 Tecnologias Utilizadas
+- **Next.js** - Framework React para produção
+- **TypeScript** - Para código com tipagem segura
+- **Tailwind CSS** - Para estilização e design responsivo
+- **Lucide React** - Para ícones bonitos
+- **React Icons** - Biblioteca adicional de ícones
+- **Shadcn/ui** - Para componentes UI pré-construídos
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🎯 Objetivos de Aprendizado
+Através deste projeto, estou desenvolvendo habilidades em:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Desenvolvimento Frontend
+- Construção de interfaces de usuário responsivas e interativas
+- Arquitetura baseada em componentes com React
+- Gerenciamento de estado com React Hooks
+- Implementação de layouts responsivos com Tailwind CSS
+- Tipagem forte com TypeScript
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Funcionalidades Principais
+- Dashboard para visualização geral
+- Gerenciamento de produtos
+- Controle de vendas
+- Interface intuitiva com sidebar colapsável
+- Design moderno e responsivo
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Boas Práticas
+- Código limpo e organizado
+- Componentização eficiente
+- Uso de TypeScript para maior segurança
+- Implementação de UI/UX moderno
 
-## Learn More
+## 🌟 Aprendizados
+Este projeto está me permitindo:
+- Aprofundar conhecimentos em Next.js e TypeScript
+- Praticar a manipulação de dados
+- Implementar validação de formulários
+- Criar interfaces de usuário modernas e responsivas
+- Desenvolver um projeto completo do zero
+- Trabalhar com bibliotecas modernas de UI
 
-To learn more about Next.js, take a look at the following resources:
+## 🔧 Em Desenvolvimento
+O projeto continua em desenvolvimento, com foco em:
+- Melhorias contínuas na interface
+- Implementação de novas funcionalidades
+- Otimização de performance
+- Expansão das capacidades de gerenciamento
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Este projeto representa uma jornada de aprendizado prático em desenvolvimento web moderno, combinando as melhores práticas e tecnologias atuais do mercado.

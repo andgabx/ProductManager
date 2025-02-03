@@ -33,9 +33,10 @@ import { CheckIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import SalesTableDropdownMenu from "./table-dropdown-menu";
+import SalesTableDropdownMenu from "./upsert-table-dropdown-menu";
 import { toast } from "sonner";
 import { CreateSale } from "../_actions/create-sale";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 const formSchema = z.object({
   productId: z.string().uuid("Selecione um produto"),
@@ -194,6 +195,7 @@ const UpsertSheetContent = ({
       </Form>
 
       <Table>
+      <ScrollArea className="h-[50vh]">
         <TableCaption>Produtos selecionados</TableCaption>
         <TableHeader>
           <TableRow>
@@ -204,29 +206,34 @@ const UpsertSheetContent = ({
             <TableHead>Ações</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
-          {selectedProducts.map((product) => (
-            <TableRow key={product.id}>
-              <TableCell>{product.name}</TableCell>
-              <TableCell>
-                {Intl.NumberFormat("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                }).format(product.price)}
-              </TableCell>
-              <TableCell>{product.quantity}</TableCell>
-              <TableCell>
-                {Intl.NumberFormat("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                }).format(product.price * product.quantity)}
-              </TableCell>
-              <TableCell>
-                <SalesTableDropdownMenu product={product} onDelete={onDelete} />
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        
+          <TableBody>
+            {selectedProducts.map((product) => (
+              <TableRow key={product.id}>
+                <TableCell>{product.name}</TableCell>
+                <TableCell>
+                  {Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(product.price)}
+                </TableCell>
+                <TableCell>{product.quantity}</TableCell>
+                <TableCell>
+                  {Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(product.price * product.quantity)}
+                </TableCell>
+                <TableCell>
+                  <SalesTableDropdownMenu
+                    product={product}
+                    onDelete={onDelete}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        
         <TableFooter>
           <TableRow>
             <TableCell colSpan={3}>Total</TableCell>
@@ -244,6 +251,7 @@ const UpsertSheetContent = ({
             <TableCell></TableCell>
           </TableRow>
         </TableFooter>
+        </ScrollArea>
       </Table>
 
       <SheetFooter className="py-8">
