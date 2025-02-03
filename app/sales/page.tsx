@@ -7,7 +7,9 @@ import { Suspense } from "react";
 import { DataTable } from "../_components/ui/datatable";
 import { saleTableColumns } from "./_components/table-columns";
 import { getSales } from "./_actions/get-sales";
-import { revalidatePath } from "next/cache";
+
+// Desabilita cache da página
+export const revalidate = 0;
 
 const Sales = async () => {
   const products = await getProducts();
@@ -48,9 +50,7 @@ const Sales = async () => {
           />
         </div>
         <DataTable columns={saleTableColumns} data={sales} />
-
       </div>
-
 
       {/* Fim do conteudo da pagina */}
     </Suspense>

@@ -18,12 +18,11 @@ const CreateSaleButton = (props: CreateSaleButtonProps) => {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
-        <Button className="flex items-center gap-2 text-white">
+        <Button onClick={() => setOpen(true)} className="flex items-center gap-2 text-white">
           <PlusIcon className="size-4" />
           Nova Venda
         </Button>
-      </SheetTrigger>
+
       <UpsertSheetContent {...props} onSubmitSuccess={() => setOpen(false)} />
     </Sheet>
   );
