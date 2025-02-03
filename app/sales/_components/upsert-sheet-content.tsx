@@ -196,7 +196,7 @@ const UpsertSheetContent = ({
         </form>
       </Form>
 
-        <Table className="overflow-y-auto max-h-[50vh]">
+        <Table className="overflow-y-auto max-h-[45vh]">
           <TableHeader>
               <TableRow>
                 <TableHead>Produto</TableHead>
