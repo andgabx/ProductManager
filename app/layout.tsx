@@ -18,8 +18,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.className} antialiased`}>
-        <div className="flex fixed h-screen w-screen gap-8">
+      <body className={`${inter.className} antialiased flex`}>
+        <div className="flex fixed h-screen w-screen overflow-x-auto gap-8">
           <Sidebar />
           {children}
         </div>

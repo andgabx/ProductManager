@@ -86,7 +86,7 @@ const Sidebar = () => {
         )}
       </button>
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen} >
         <DialogContent>
           <DialogHeader className="space-y-4">
             <DialogTitle className="text-xl font-semibold text-primary-light">
