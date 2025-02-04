@@ -27,11 +27,13 @@ const Products = async () => {
           </div>
           <AddProductButton />
         </div>
-        <ScrollArea className="h-[calc(100vh-10rem)]">
-          <DataTable
-            columns={productTableColumns}
-            data={JSON.parse(JSON.stringify(products))}
-          />
+        <ScrollArea className="w-full overflow-x-auto rounded-md">
+          <div className="h-[calc(100vh-10rem)] w-full">
+            <DataTable
+              columns={productTableColumns}
+              data={JSON.parse(JSON.stringify(products))}
+            />
+          </div>
         </ScrollArea>
       </div>
     </Suspense>

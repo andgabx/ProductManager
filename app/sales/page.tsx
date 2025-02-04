@@ -35,7 +35,7 @@ const Sales = async () => {
     >
       {/* Conteudo da pagina */}
 
-      <div className="w-full space-y-8 p-8">
+      <div className="w-full space-y-8 overflow-x-auto p-8">
         {/* ESQUERDA */}
         <div className="flex w-full items-center justify-between">
           <div className="space-y-1">

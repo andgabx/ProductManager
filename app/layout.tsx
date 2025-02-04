@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Toaster } from "./_components/ui/sonner";
-import Sidebar from "./_components/oldsidebar";
+import { SidebarDemo } from "./_components/sidebar/sidebar";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -18,11 +18,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.className} flex antialiased`}>
-        <div className="fixed flex h-screen w-screen gap-8 overflow-x-auto">
-          <Sidebar />
-          {children}
-        </div>
+      <body className={`${inter.className} antialiased`}>
+        <SidebarDemo>{children}</SidebarDemo>
         <Toaster
           toastOptions={{
             className: "bg-primary text-white",
