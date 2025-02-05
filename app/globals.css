@@ -4,7 +4,7 @@
 
 html,
 body {
-  @apply h-screen w-screen bg-background;
+  @apply h-screen w-screen bg-[#dedde2];
 }
 
 @layer base {

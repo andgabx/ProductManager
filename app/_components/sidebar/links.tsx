@@ -17,20 +17,20 @@ export const links = [
     label: "Dashboard",
     href: "/",
     icon: (
-      <IconDashboard size={24} className="flex-shrink-0 text-primary-dark" />
+      <IconDashboard size={24} className="flex-shrink-0 text-background" />
     ),
   },
   {
     label: "Produtos",
     href: "/products",
-    icon: <IconPackage size={24} className="flex-shrink-0 text-primary-dark" />,
+    icon: <IconPackage size={24} className="flex-shrink-0 text-background" />,
   },
 
   {
     label: "Vendas",
     href: "/sales",
     icon: (
-      <IconShoppingCart size={24} className="flex-shrink-0 text-primary-dark" />
+      <IconShoppingCart size={24} className="flex-shrink-0 text-background" />
     ),
   },
 ];

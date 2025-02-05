@@ -5,10 +5,12 @@ const LogoIcon = () => {
   return (
     <Link
       href="/"
-      className="text-md relative z-20 flex items-center space-x-2 bg-background py-1 font-normal text-primary-dark"
+      className="text-md relative z-20 flex items-center space-x-2 bg-primary-light py-1 font-normal"
     >
-      <ShoppingCartIcon className="flex-shrink-0 text-primary-dark" />
+      <ShoppingCartIcon className="flex-shrink-0 text-background" />
     </Link>
+
+
 
 
 
