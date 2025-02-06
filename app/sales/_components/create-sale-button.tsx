@@ -18,12 +18,19 @@ const CreateSaleButton = (props: CreateSaleButtonProps) => {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-        <Button onClick={() => setOpen(true)} className="flex items-center gap-2 text-white">
-          <PlusIcon className="size-4" />
-          Nova Venda
-        </Button>
+      <Button
+        onClick={() => setOpen(true)}
+        className="flex items-center gap-2 text-white"
+      >
+        <PlusIcon className="size-4" />
+        Nova Venda
+      </Button>
 
-      <UpsertSheetContent {...props} onSubmitSuccess={() => setOpen(false)} />
+      <UpsertSheetContent
+        sale={undefined}
+        {...props}
+        onSubmitSuccess={() => setOpen(false)}
+      />
     </Sheet>
   );
 };

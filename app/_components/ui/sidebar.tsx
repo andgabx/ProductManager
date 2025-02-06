@@ -18,7 +18,7 @@ interface SidebarContextProps {
 }
 
 const SidebarContext = createContext<SidebarContextProps | undefined>(
-  undefined
+  undefined,
 );
 
 export const useSidebar = () => {
@@ -89,8 +89,8 @@ export const DesktopSidebar = ({
     <>
       <motion.div
         className={cn(
-          "h-full px-4 py-4 hidden md:flex md:flex-col bg-primary-light w-[300px] flex-shrink-0",
-          className
+          "hidden h-full w-[300px] flex-shrink-0 bg-primary-light px-4 py-4 md:flex md:flex-col",
+          className,
         )}
         animate={{
           width: animate ? (open ? "300px" : "60px") : "300px",
@@ -115,14 +115,13 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between bg-background w-full"
+          "flex h-10 w-full flex-row items-center justify-between bg-background px-4 py-4 md:hidden",
         )}
         {...props}
       >
-
-        <div className="flex justify-end pt-6 bg-background z-20 w-full">
+        <div className="z-20 flex w-full justify-end bg-background pt-6">
           <IconMenu2
-                size={24}
+            size={24}
             className="text-primary-dark dark:text-neutral-200"
             onClick={() => setOpen(!open)}
           />
@@ -138,18 +137,15 @@ export const MobileSidebar = ({
                 ease: "easeInOut",
               }}
               className={cn(
-                "fixed h-full w-full inset-0 bg-background dark:bg-neutral-900 p-10 z-[100] flex flex-col justify-between",
-                className
+                "fixed inset-0 z-[100] flex h-full w-full flex-col justify-between bg-primary-light p-10 dark:bg-neutral-900",
+                className,
               )}
             >
-
               <div
                 className="absolute right-10 top-10 z-50 text-primary-dark dark:text-neutral-200"
                 onClick={() => setOpen(!open)}
               >
-                <IconX size={24} className="text-primary-dark" />
-
-
+                <IconX size={24} className="text-background" />
               </div>
               {children}
             </motion.div>
@@ -175,8 +171,8 @@ export const SidebarLink = ({
       onClick={() => setOpen(false)}
       href={link.href}
       className={cn(
-        "flex items-center justify-start gap-2 text-md group/sidebar py-2",
-        className
+        "text-md group/sidebar flex items-center justify-start gap-2 py-2",
+        className,
       )}
       {...props}
     >
@@ -187,12 +183,10 @@ export const SidebarLink = ({
           display: animate ? (open ? "inline-block" : "none") : "inline-block",
           opacity: animate ? (open ? 1 : 0) : 1,
         }}
-        className="text-background font-medium dark:text-neutral-200 text-md group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
+        className="text-md !m-0 inline-block whitespace-pre !p-0 font-medium text-background transition duration-150 group-hover/sidebar:translate-x-1 dark:text-neutral-200"
       >
         {link.label}
       </motion.span>
-
-
     </Link>
   );
 };

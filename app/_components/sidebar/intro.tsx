@@ -5,7 +5,6 @@ import { Button } from "@/app/_components/ui/button";
 import Image from "next/image";
 
 import {
-  Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
@@ -18,11 +17,9 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { stepContent } from "./step-content";
 
-
 export default function Component() {
   const [step, setStep] = useState(1);
 
-  
   const totalSteps = stepContent.length;
 
   const handleContinue = () => {
@@ -47,11 +44,6 @@ export default function Component() {
           height={1200}
         />
       </div>
-
-
-
-
-
 
       <div className="space-y-6 px-6 pb-6 pt-3">
         <DialogHeader>

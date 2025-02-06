@@ -6,7 +6,7 @@ import CreateSaleButton from "./_components/create-sale-button";
 import { Suspense } from "react";
 import { DataTable } from "../_components/ui/datatable";
 import { saleTableColumns } from "./_components/table-columns";
-import { getSales } from "./_actions/get-sales";
+import { getSales } from "./_actions/get-sale/get-sales";
 
 // Desabilita cache da página
 export const revalidate = 0;
@@ -15,7 +15,6 @@ const Sales = async () => {
   const products = await getProducts();
   const sales = await getSales();
 
-  // Faça a sanitização AQUI, antes de passar para o componente cliente
   const sanitizedProducts = JSON.parse(JSON.stringify(products));
 
   const productOptions: ComboboxOption[] = sanitizedProducts.map(
@@ -24,6 +23,12 @@ const Sales = async () => {
       value: product.id,
     }),
   );
+
+  const tableData = sales.map((sale) => ({
+    ...sale,
+    products,
+    productOptions,
+  }));
 
   return (
     <Suspense
@@ -49,7 +54,7 @@ const Sales = async () => {
             products={sanitizedProducts}
           />
         </div>
-        <DataTable columns={saleTableColumns} data={sales} />
+        <DataTable columns={saleTableColumns} data={tableData} />
       </div>
 
       {/* Fim do conteudo da pagina */}

@@ -26,7 +26,6 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Dialog } from "../ui/dialog";
-import { DialogClose, DialogDescription } from "@radix-ui/react-dialog";
 import Intro from "./intro";
 
 interface SidebarDemoProps {
@@ -35,6 +34,7 @@ interface SidebarDemoProps {
 
 export function SidebarDemo({ children }: SidebarDemoProps) {
   const [open, setOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
     <div
@@ -55,9 +55,15 @@ export function SidebarDemo({ children }: SidebarDemoProps) {
           </div>
 
           <div>
-            <Dialog>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
                 <SidebarLink
+                  props={{
+                    onClick: (e) => {
+                      e.stopPropagation();
+                      setDialogOpen(true);
+                    },
+                  }}
                   link={{
                     label: "Sobre",
                     href: "#",

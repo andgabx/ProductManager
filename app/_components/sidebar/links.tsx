@@ -4,21 +4,12 @@ import {
   IconInfoCircle,
   IconShoppingCart,
 } from "@tabler/icons-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  DialogTitle,
-} from "../ui/dialog";
-import { useState } from "react";
 
 export const links = [
   {
     label: "Dashboard",
     href: "/",
-    icon: (
-      <IconDashboard size={24} className="flex-shrink-0 text-background" />
-    ),
+    icon: <IconDashboard size={24} className="flex-shrink-0 text-background" />,
   },
   {
     label: "Produtos",

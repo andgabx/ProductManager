@@ -36,3 +36,4 @@ export async function upsertProduct(data: {
     throw new Error("Failed to save product");
   }
 }
+
