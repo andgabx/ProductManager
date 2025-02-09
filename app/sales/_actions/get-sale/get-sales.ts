@@ -3,16 +3,22 @@ import { ComboboxOption } from "@/app/_components/ui/combobox";
 import { ProductDto } from "@/app/products/_actions/get-products";
 import { SaleProduct } from "@prisma/client";
 
+interface SaleProductDto {
+  productId: string;
+  quantity: number;
+  unitPrice: number;
+  productName: string;
+}
+
 export interface GetSalesDto {
   id: string;
-
   productNames: string[];
   totalProducts: number;
   totalPrice: number;
   date: Date;
   productOptions: ComboboxOption[];
   products: ProductDto[];
-  saleProducts: SaleProduct[];
+  saleProducts: SaleProductDto[];
 }
 
 export const getSales = async (): Promise<GetSalesDto[]> => {
@@ -51,10 +57,14 @@ export const getSales = async (): Promise<GetSalesDto[]> => {
           ...sp.product,
           price: Number(sp.product.price),
         })),
-        saleProducts: sale.saleProducts.map((sp) => ({
-          ...sp,
-          unitPrice: Number(sp.unitPrice),
-        })),
+        saleProducts: sale.saleProducts.map(
+          (saleProduct): SaleProductDto => ({
+            productId: saleProduct.product.id,
+            quantity: saleProduct.quantity,
+            unitPrice: Number(saleProduct.unitPrice),
+            productName: saleProduct.product.name,
+          }),
+        ),
       })),
     ),
   );

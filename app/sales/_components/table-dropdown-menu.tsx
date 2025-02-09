@@ -101,11 +101,10 @@ const SalesTableDropdownMenu = ({ sale }: SalesTableDropdownMenuProps) => {
           onSubmitSuccess={() => setSheetOpen(false)}
           defaultSelectedProducts={sale.saleProducts.map((saleProduct) => ({
             id: saleProduct.productId,
-            name:
-              sale.products.find((p) => p.id === saleProduct.productId)?.name ||
-              "",
-            quantity: Number(saleProduct.quantity),
-            price: Number(saleProduct.unitPrice),
+            name: saleProduct.productName,
+            quantity: saleProduct.quantity,
+            price: saleProduct.unitPrice,
+
           }))}
         />
       </Sheet>

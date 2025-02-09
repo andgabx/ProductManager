@@ -55,7 +55,7 @@ export function SidebarDemo({ children }: SidebarDemoProps) {
           </div>
 
           <div>
-            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <Dialog>
               <DialogTrigger asChild>
                 <SidebarLink
                   props={{
