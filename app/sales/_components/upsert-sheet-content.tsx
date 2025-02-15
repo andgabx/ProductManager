@@ -35,10 +35,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import SalesTableDropdownMenu from "./upsert-table-dropdown-menu";
 import { toast } from "sonner";
-import { CreateSale } from "../_actions/create-sale";
+import { UpsertSale } from "../_actions/upsert-sale";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { getProductsForSale } from "../_actions/get-products";
 import { ProductDto } from "@/app/products/_actions/get-products";
+import { GetSalesDto } from "../_actions/get-sale/get-sales";
 
 const formSchema = z.object({
   productId: z.string().uuid("Selecione um produto"),
@@ -51,7 +52,7 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 interface UpsertSheetContentProps {
-  sale?: Pick<Sale, "id">;
+  sale?: Pick<GetSalesDto, "id" | "saleProducts"> | null;
   onSubmitSuccess: () => void;
   productOptions: ComboboxOption[];
   products: ProductDto[];
@@ -160,16 +161,19 @@ const UpsertSheetContent = ({
 
   const onSubmitSale = async () => {
     try {
-      await CreateSale({
+      await UpsertSale({
+        id: sale?.id,
         products: selectedProducts.map((product) => ({
           id: product.id,
           quantity: product.quantity,
         })),
       });
-      toast.success("Venda finalizada com sucesso");
+      toast.success(
+        sale ? "Venda atualizada com sucesso" : "Venda finalizada com sucesso",
+      );
       onSubmitSuccess();
     } catch (error) {
-      toast.error("Erro ao finalizar venda");
+      toast.error(sale ? "Erro ao atualizar venda" : "Erro ao finalizar venda");
     }
   };
 
@@ -177,7 +181,7 @@ const UpsertSheetContent = ({
     <SheetContent className="!max-w-xl">
       <SheetHeader>
         <SheetTitle className="text-xl font-semibold text-primary-light">
-          Nova Venda
+          {sale ? "Editar Venda" : "Nova Venda"}
         </SheetTitle>
         <SheetDescription>
           Insira as informações da venda e clique em salvar.

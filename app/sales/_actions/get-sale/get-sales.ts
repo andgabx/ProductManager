@@ -18,7 +18,7 @@ export interface GetSalesDto {
   date: Date;
   productOptions: ComboboxOption[];
   products: ProductDto[];
-  saleProducts: SaleProductDto[];
+  saleProducts: SaleProduct[];
 }
 
 export const getSales = async (): Promise<GetSalesDto[]> => {
@@ -57,14 +57,7 @@ export const getSales = async (): Promise<GetSalesDto[]> => {
           ...sp.product,
           price: Number(sp.product.price),
         })),
-        saleProducts: sale.saleProducts.map(
-          (saleProduct): SaleProductDto => ({
-            productId: saleProduct.product.id,
-            quantity: saleProduct.quantity,
-            unitPrice: Number(saleProduct.unitPrice),
-            productName: saleProduct.product.name,
-          }),
-        ),
+        saleProducts: sale.saleProducts,
       })),
     ),
   );
